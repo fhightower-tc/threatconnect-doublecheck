@@ -7,29 +7,28 @@ test_tc_dc
 
 Tests for `tc_dc` module.
 """
-import pytest
 
+import json
+import os
+
+import pytest
 
 from tc_dc import tc_dc
 
 
-@pytest.fixture
-def absolute_path():
-    """Return an absolute path (which is useful for running tests)."""
-    # return os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
+def _read_file(file_path):
+    """Read a file."""
+    with open(file_path, 'r') as f:
+        if file_path.endswith('.json'):
+            return json.load(f)
+        else:
+            return f.read()
 
 
 @pytest.fixture
-def response():
-    """Sample pytest fixture.
-    See more at: http://doc.pytest.org/en/latest/fixture.html
-    """
-    # import requests
-    # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
+def rules_1():
+    return _read_file(os.path.abspath(os.path.join(os.path.dirname(__file__), "./data/sample_rules1.json")))
 
 
-def test_content(absolute_path, response):
-    """Sample pytest test function with the pytest fixture as an argument.
-    """
-    # from bs4 import BeautifulSoup
-    # assert 'GitHub' in BeautifulSoup(response.content).title.string
+def test_rule(rules_1):
+    assert len(rules_1) > 50
