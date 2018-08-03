@@ -11,7 +11,7 @@ from tc_dc import tc_dc
 
 from .utility import _read_file
 
-SAMPLE_PROFILE = {
+SAMPLE_ATTRIBUTE_PROFILE = {
     "required": [
     {
         "type": "Source",
@@ -33,7 +33,7 @@ SAMPLE_PROFILE = {
 
 
 def test_successful_attribute_validation():
-    """Make sure a valid attribute passes the test."""
+    """Make sure a valid attribute profile passes the test."""
     test_attributes = [{
         "type": "Description",
         "value": "This is just a test."
@@ -46,7 +46,7 @@ def test_successful_attribute_validation():
         "type": "Additional Analysis and Context",
         "value": "https://hightower.space/projects"
     }]
-    results = tc_dc._validate_attributes(SAMPLE_PROFILE, test_attributes)
+    results = tc_dc._validate_attributes(SAMPLE_ATTRIBUTE_PROFILE, test_attributes)
     assert len(results['failures']) == 0
     assert len(results['warnings']) == 0
 
@@ -62,7 +62,7 @@ def test_attribute_type_failure():
         "type": "Additional Analysis and Context",
         "value": "https://hightower.space/projects"
     }]
-    results = tc_dc._validate_attributes(SAMPLE_PROFILE, test_attributes)
+    results = tc_dc._validate_attributes(SAMPLE_ATTRIBUTE_PROFILE, test_attributes)
     assert len(results['failures']) == 1
     assert len(results['warnings']) == 0
     assert results['failures'][0] == tc_dc.MESSAGES['missingAttribute'].format('of type "Description"')
@@ -82,7 +82,7 @@ def test_attribute_missing_nonregex_value():
         "type": "Additional Analysis and Context",
         "value": "https://hightower.space/projects"
     }]
-    results = tc_dc._validate_attributes(SAMPLE_PROFILE, test_attributes)
+    results = tc_dc._validate_attributes(SAMPLE_ATTRIBUTE_PROFILE, test_attributes)
     assert len(results['failures']) == 1
     assert len(results['warnings']) == 0
     assert results['failures'][0] == tc_dc.MESSAGES['missingAttribute'].format('of type "Source" with the value "https://threatconnect.com/blog"')
@@ -102,7 +102,7 @@ def test_attribute_missing_regex_value():
         "type": "Additional Analysis and Context",
         "value": "https://foo.space/projects"
     }]
-    results = tc_dc._validate_attributes(SAMPLE_PROFILE, test_attributes)
+    results = tc_dc._validate_attributes(SAMPLE_ATTRIBUTE_PROFILE, test_attributes)
     assert len(results['failures']) == 1
     assert len(results['warnings']) == 0
     assert results['failures'][0] == tc_dc.MESSAGES['missingAttribute'].format('of type "Additional Analysis and Context" with a value matching the regex "https://hightower.space"')
@@ -119,7 +119,7 @@ def test_attribute_missing_type_and_nonregex_value():
         "type": "Additional Analysis and Context",
         "value": "https://hightower.space/projects"
     }]
-    results = tc_dc._validate_attributes(SAMPLE_PROFILE, test_attributes)
+    results = tc_dc._validate_attributes(SAMPLE_ATTRIBUTE_PROFILE, test_attributes)
     assert len(results['failures']) == 2
     assert len(results['warnings']) == 0
     assert tc_dc.MESSAGES['missingAttribute'].format('of type "Source" with the value "https://threatconnect.com/blog"') in results['failures']
@@ -137,7 +137,7 @@ def test_attribute_missing_type_and_regex_value():
         "type": "Additional Analysis and Context",
         "value": "https://foo.space/projects"
     }]
-    results = tc_dc._validate_attributes(SAMPLE_PROFILE, test_attributes)
+    results = tc_dc._validate_attributes(SAMPLE_ATTRIBUTE_PROFILE, test_attributes)
     assert len(results['failures']) == 2
     assert len(results['warnings']) == 0
     assert tc_dc.MESSAGES['missingAttribute'].format('of type "Additional Analysis and Context" with a value matching the regex "https://hightower.space"') in results['failures']
@@ -158,7 +158,7 @@ def test_attribute_missing_nonregex_value_and_regex_value():
         "type": "Additional Analysis and Context",
         "value": "https://foo.space/projects"
     }]
-    results = tc_dc._validate_attributes(SAMPLE_PROFILE, test_attributes)
+    results = tc_dc._validate_attributes(SAMPLE_ATTRIBUTE_PROFILE, test_attributes)
     assert len(results['failures']) == 2
     assert len(results['warnings']) == 0
     assert tc_dc.MESSAGES['missingAttribute'].format('of type "Additional Analysis and Context" with a value matching the regex "https://hightower.space"') in results['failures']
