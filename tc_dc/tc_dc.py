@@ -11,7 +11,8 @@ Attribute = collections.namedtuple('Attribute', ['type', 'value'])
 MESSAGES = {
     'duplicateAttributes': 'Duplicate attributes were found.',
     'numberOfAttributesDiscrepency': 'Expecting no {} than {} attributes, but found {} attributes.',
-    'missingAttribute': 'Missing attribute {}'
+    'missingAttribute': 'Missing attribute {}',
+    'missingTag': 'Missing {} tag "{}"'
 }
 
 
@@ -103,6 +104,27 @@ def _validate_attributes(profile_attributes, data_attributes):
     return results
 
 
+def _validate_tags(profile_tags, data_tags):
+    """Make sure all of the tags specified by the profile are present in the data."""
+    results = {
+        'failures': list(),
+        'warnings': list()
+    }
+    formatted_data_tags = [tag['name'] for tag in data_tags]
+
+    if profile_tags.get('required'):
+        for tag in profile_tags['required']:
+            if tag not in formatted_data_tags:
+                results['failures'].append(MESSAGES['missingTag'].format('required', tag))
+
+    if profile_tags.get('desired'):
+        for tag in profile_tags['desired']:
+            if tag not in formatted_data_tags:
+                results['warnings'].append(MESSAGES['missingTag'].format('desired', tag))
+
+    return results
+
+
 def _apply_profile(profile, data):
     """Apply the given profile to the given data."""
     results = {
@@ -120,8 +142,15 @@ def _apply_profile(profile, data):
                 # TODO: record a failure
                 pass
 
-        # handle tags
+        # handle associations
+        pass
 
+        # handle tags
+        if profile['settings'].get('tags'):
+            if item.get('tag'):
+                tag_results = _validate_tags(profile['settings']['tags'], item['tag'])
+                results['failures'].extend(tag_results['failures'])
+                results['warnings'].extend(tag_results['warnings'])
 
     return results
 
