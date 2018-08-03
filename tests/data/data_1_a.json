@@ -15,11 +15,11 @@
     },
     {
         "type": "Source",
-        "value": "https://hightower.space"
+        "value": "https://threatconnect.com/blog"
     },
     {
         "type": "Additional Analysis and Context",
-        "value": "Test"
+        "value": "https://hightower.space"
     }],
     "tag": [
     {
@@ -27,6 +27,19 @@
     },
     {
         "name": "Ugly"
+    }],
+    "associations": [{
+        "type": "Document",
+        "name": "blahblah.txt"
+    }, {
+        "type": "Document",
+        "name": "blahblah.pdf"
+    }, {
+        "type": "Host",
+        "name": "hightower.space"
+    }, {
+        "type": "Adversary",
+        "name": "Bad guy"
     }]
 },
 {
@@ -45,6 +58,10 @@
     },
     {
         "type": "Source",
+        "value": "https://threatconnect.com/blog"
+    },
+    {
+        "type": "Additional Analysis and Context",
         "value": "https://hightower.space"
     }],
     "tag": [
@@ -53,6 +70,19 @@
     },
     {
         "name": "Ugly"
+    }],
+    "associations": [{
+        "type": "Document",
+        "name": "blahblah.txt"
+    }, {
+        "type": "Document",
+        "name": "blahblah.pdf"
+    }, {
+        "type": "Host",
+        "name": "hightower.space"
+    }, {
+        "type": "Adversary",
+        "name": "Bad guy"
     }]
 },
 {
@@ -71,11 +101,11 @@
     },
     {
         "type": "Source",
-        "value": "https://hightower.space"
+        "value": "https://threatconnect.com/blog"
     },
     {
         "type": "Additional Analysis and Context",
-        "value": "A different test"
+        "value": "A different https://hightower.space"
     }],
     "tag": [
     {
@@ -83,5 +113,18 @@
     },
     {
         "name": "Ugly"
+    }],
+    "associations": [{
+        "type": "Document",
+        "name": "blahblah.txt"
+    }, {
+        "type": "Document",
+        "name": "blahblah.pdf"
+    }, {
+        "type": "Host",
+        "name": "hightower.space"
+    }, {
+        "type": "Adversary",
+        "name": "Bad guy"
     }]
 }]

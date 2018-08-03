@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Use a profile to validate attributes."""
+"""Use a profile to validate tags."""
 
 import json
 import os

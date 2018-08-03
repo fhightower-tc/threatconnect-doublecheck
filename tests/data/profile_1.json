@@ -19,26 +19,34 @@
                 "value": "https://hightower.space",
                 "regex": true
             }],
-            "desired": [
-            {
-                "type": "File Type",
-                "value": "",
-                "regex": false
-            },
-            {
-                "type": "AV Scanner Results",
-                "value": "",
-                "regex": false
-            }],
+            "desired": [],
             "actionOnDuplicates": "fail",
             "minNumberOfAttributes": 3,
             "maxNumberOfAttributes": 10
         },
-        "associations": {},
+        "associations":{
+            "required": [{
+                    "type": "Document",
+                    "count": 2
+                },
+                {
+                    "type": "File",
+                    "count": 0
+                },
+                {
+                    "type": "Host"
+                }
+            ],
+            "desired":[{
+                    "type": "Adversary",
+                    "count": 1
+                }
+            ]
+        },
         "tags":
         {
-            "required": ["bad", "apt"],
-            "desired": ["malware"]
+            "required": ["Ugly"],
+            "desired": []
         }
     }
 }
