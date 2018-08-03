@@ -6,7 +6,7 @@
             "required": [
             {
                 "type": "Source",
-                "value": "threatconnect.com",
+                "value": "https://threatconnect.com/blog",
                 "regex": false
             },
             {
@@ -16,7 +16,7 @@
             },
             {
                 "type": "Additional Analysis and Context",
-                "value": "[a-zA-Z]*",
+                "value": "https://hightower.space",
                 "regex": true
             }],
             "desired": [
@@ -30,39 +30,11 @@
                 "value": "",
                 "regex": false
             }],
-            "failOnDuplicates": true,
+            "actionOnDuplicates": "fail",
             "minNumberOfAttributes": 3,
             "maxNumberOfAttributes": 10
         },
-        "associations":
-        {
-            "required": [
-            {
-                "type": "Document",
-                "count": 2
-            },
-            {
-                "type": "File",
-                "count": 0
-            },
-            {
-                "type": "Host",
-                "count": -1
-            }],
-            "desired": [
-            {
-                "type": "Adversary",
-                "count": 1
-            },
-            {
-                "type": "Url",
-                "count": 2
-            },
-            {
-                "type": "Email",
-                "count": -1
-            }]
-        },
+        "associations": {},
         "tags":
         {
             "required": ["bad", "apt"],

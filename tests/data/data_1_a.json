@@ -1,0 +1,87 @@
+[
+{
+    "id": 1234,
+    "ownerName": "Testing Labs",
+    "dateAdded": "2018-08-03T07:38:01Z",
+    "lastModified": "2018-08-03T07:38:01Z",
+    "rating": 1.5,
+    "confidence": 30,
+    "ip": "1.2.3.4",
+    "type": "address",
+    "attribute": [
+    {
+        "type": "Description",
+        "value": "This is just a test."
+    },
+    {
+        "type": "Source",
+        "value": "https://hightower.space"
+    },
+    {
+        "type": "Additional Analysis and Context",
+        "value": "Test"
+    }],
+    "tag": [
+    {
+        "name": "Bad"
+    },
+    {
+        "name": "Ugly"
+    }]
+},
+{
+    "id": 2345,
+    "ownerName": "Testing Labs",
+    "dateAdded": "2018-08-03T07:38:01Z",
+    "lastModified": "2018-08-03T07:38:01Z",
+    "rating": 3.0,
+    "confidence": 75,
+    "ip": "2.3.4.5",
+    "type": "address",
+    "attribute": [
+    {
+        "type": "Description",
+        "value": "This is just a test."
+    },
+    {
+        "type": "Source",
+        "value": "https://hightower.space"
+    }],
+    "tag": [
+    {
+        "name": "Nation State"
+    },
+    {
+        "name": "Ugly"
+    }]
+},
+{
+    "id": 3456,
+    "ownerName": "Testing Labs",
+    "dateAdded": "2018-08-03T07:38:01Z",
+    "lastModified": "2018-08-03T07:38:01Z",
+    "rating": 5.0,
+    "confidence": 100,
+    "ip": "3.4.5.6",
+    "type": "address",
+    "attribute": [
+    {
+        "type": "Description",
+        "value": "This is just a test."
+    },
+    {
+        "type": "Source",
+        "value": "https://hightower.space"
+    },
+    {
+        "type": "Additional Analysis and Context",
+        "value": "A different test"
+    }],
+    "tag": [
+    {
+        "name": "Good"
+    },
+    {
+        "name": "Ugly"
+    }]
+}]
