@@ -1,2 +1,2 @@
-git+git@gitlab.com:fhightower-tc/democritus.git
+git+https://gitlab.com/fhightower-tc/democritus
 pytest
