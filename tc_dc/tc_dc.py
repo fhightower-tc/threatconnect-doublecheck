@@ -143,7 +143,6 @@ def _validate_associations(profile_associations, data_associations):
     return results
 
 
-
 def _iterate_and_validate_tags(profile_tag_key, profile_tags, formatted_data_tags):
     messages = list()
     for tag in profile_tags[profile_tag_key]:
@@ -169,7 +168,7 @@ def _validate_tags(profile_tags, data_tags):
     return results
 
 
-def _apply_profile(profile, data):
+def apply_profile(profile, data):
     """Apply the given profile to the given data."""
     results = {
         'failures': list(),
@@ -214,11 +213,3 @@ def _apply_profile(profile, data):
                     results['warnings'].append('Expected desired tags, but no tags found.')
 
     return results
-
-
-def main():
-    pass
-
-
-if __name__ == '__main__':
-    main()

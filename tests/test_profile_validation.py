@@ -28,13 +28,13 @@ def data_1_b():
 
 
 def test_valid_profile_1(profile_1, data_1_a):
-    results = tc_dc._apply_profile(profile_1, data_1_a)
+    results = tc_dc.apply_profile(profile_1, data_1_a)
     assert len(results['failures']) == 0
     assert len(results['warnings']) == 0
 
 
 def test_invalid_profile_1(profile_1, data_1_b):
-    results = tc_dc._apply_profile(profile_1, data_1_b)
+    results = tc_dc.apply_profile(profile_1, data_1_b)
     assert len(results['failures']) == 2
     assert len(results['warnings']) == 1
     assert 'Missing attribute of type "Source" with the value "https://threatconnect.com/blog"' in results['failures']
@@ -43,7 +43,7 @@ def test_invalid_profile_1(profile_1, data_1_b):
 
 
 def test_nonexistent_attibutes(profile_1):
-    results = tc_dc._apply_profile(profile_1, [{}])
+    results = tc_dc.apply_profile(profile_1, [{}])
     assert len(results['failures']) == 3
     assert len(results['warnings']) == 0
     assert 'Expected required attributes, but no attributes found.' in results['failures']
