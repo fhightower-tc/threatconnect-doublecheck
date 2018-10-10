@@ -212,8 +212,13 @@ def test_profile_creator_differentiate_required_and_desired():
 # TODO: get the functions below working - the current problem is that the associations in data in data_1_a and data_1_b are not in the same format as the form returned by democritus (which can be seen in the tests above)
 def test_profile_creator_a():
     data = data_1_a()
-    assert len(profile_creator.create_profile(data)) == 2
+    profile = profile_creator.create_profile(data)
+    assert len(profile) == 1
+    assert profile == {'settings': {'attributes': {'required': [{'type': 'Description', 'value': ''}, {'type': 'Source', 'value': ''}, {'type': 'Additional Analysis and Context', 'value': ''}], 'desired': []}, 'associations': {'required': [{'type': 'Document'}, {'type': 'Adversary'}], 'desired': []}, 'tags': {'required': ['Ugly'], 'desired': []}}}
+
 
 def test_profile_creator_b():
     data = data_1_b()
-    assert len(profile_creator.create_profile(data)) == 2
+    profile = profile_creator.create_profile(data)
+    assert len(profile) == 1
+    assert profile == {'settings': {'attributes': {'required': [{'type': 'Description', 'value': ''}, {'type': 'Source', 'value': ''}, {'type': 'Additional Analysis and Context', 'value': ''}], 'desired': []}, 'associations': {'required': [{'type': 'Document'}], 'desired': [{'type': 'Adversary'}]}, 'tags': {'required': [], 'desired': ['Ugly']}}}

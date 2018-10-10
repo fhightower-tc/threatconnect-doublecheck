@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 """Create a TC-DC profile based on some data."""
 
+GROUP_TYPES = ['Adversary', 'Campaign', 'Document', 'Email', 'Event', 'Incident', 'Intrusion Set', 'Report', 'Signature', 'Threat']
+
 
 def create_profile(data):
     """Create a TC-DC profile based on the given data."""
@@ -35,8 +37,15 @@ def create_profile(data):
             for tag in i['tag']:
                 tags[tag['name']] = tags.get(tag['name'], 0) + 1
         if i.get('associations'):
-            for association in i['associations']['groups']:
-                associations[association['type']] = associations.get(association['type'], 0) + 1
+            # handle JSON from the API
+            if isinstance(i['associations'], list):
+                for association in i['associations']:
+                    if association['type'] in GROUP_TYPES:
+                        associations[association['type']] = associations.get(association['type'], 0) + 1
+            # handle JSON from democritus
+            else:
+                for association in i['associations']['groups']:
+                    associations[association['type']] = associations.get(association['type'], 0) + 1
 
     # do some analysis to determine what should be required vs. desired
     item_count = len(data)
