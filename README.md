@@ -26,6 +26,36 @@ This package should:
 
 The basic idea is that you have a **profile** which describes the content and structure of the data you are looking for in ThreatConnect. There are two things you can do related to a profile: create it and use it.
 
+Each profile has three possible levels:
+
+- `all` - Settings on this level are applied to every item regardless of type
+
+![](./_images/fig0.png)
+
+- `indicator`/`group` - Settings on this level are applied to all indicator/group types
+
+![](./_images/fig1a.png)
+
+![](./_images/fig1b.png)
+
+- specific indicator/group types - Settings on this level are applied only to indicators/groups of a particular type
+
+![](./_images/fig2.png)
+
+A profile will look something like:
+
+```json
+{
+    "settings": {
+        "all": {...},
+        "indicator": {...},
+        "host": {...},
+        "address": {...}
+    },
+    "name": "Sample Profile"
+}
+```
+
 ### Creating a Profile
 
 There is a function in `tc_dc/profile_creator.py` that allows you to... create a profile! All you have to do is give it some data from ThreatConnect for which you would like a profile. The basic usage of the `profile_creator.py` is:
