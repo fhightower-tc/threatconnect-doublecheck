@@ -1,2 +1,0 @@
-git+https://gitlab.com/fhightower-tc/democritus
-pytest

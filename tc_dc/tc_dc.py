@@ -16,6 +16,42 @@ MESSAGES = {
 }
 
 
+# TODO: eventually, the is_group and is_indicator functions could pull from tcex
+def is_group(item_type):
+    """Return whether or not the given item_type is a group."""
+    group_types = [
+        'adversary',
+        'campaign',
+        'document',
+        'email',
+        'event',
+        'incident',
+        'intrusion set',
+        'signature',
+        'report',
+        'threat',
+        'task'
+    ]
+    return item_type in group_types
+
+
+def is_indicator(item_type):
+    """Return whether or not the given item_type is an indicator."""
+    indicator_types = [
+        'address',
+        'emailaddress',
+        'file',
+        'host',
+        'url',
+        'asn',
+        'cidr',
+        'mutex',
+        'registry key',
+        'user agent'
+    ]
+    return item_type in indicator_types
+
+
 def _iterate_and_validate_attributes(profile_attribute_key, profile_attributes, data_attributes):
     messages = list()
     data_attributes_set = set([Attribute(attr['type'], attr['value']) for attr in data_attributes])
@@ -168,6 +204,50 @@ def _validate_tags(profile_tags, data_tags):
     return results
 
 
+def handle_settings(settings, item):
+    """Handle the given settings."""
+    results = {
+        'failures': list(),
+        'warnings': list()
+    }
+    # handle ATTRIBUTES
+    if settings.get('attributes'):
+        if item.get('attribute'):
+            attribute_results = _validate_attributes(settings['attributes'], item['attribute'])
+            results['failures'].extend(attribute_results['failures'])
+            results['warnings'].extend(attribute_results['warnings'])
+        else:
+            if settings['attributes'].get('required'):
+                results['failures'].append('Expected required attributes, but no attributes found.')
+            else:
+                results['warnings'].append('Expected desired attributes, but no attributes found.')
+
+    # handle ASSOCIATIONS
+    if settings.get('associations'):
+        if item.get('associations'):
+            tag_results = _validate_associations(settings['associations'], item['associations'])
+            results['failures'].extend(tag_results['failures'])
+            results['warnings'].extend(tag_results['warnings'])
+        else:
+            if settings['associations'].get('required'):
+                results['failures'].append('Expected required associations, but no associations found.')
+            else:
+                results['warnings'].append('Expected desired associations, but no associations found.')
+
+    # handle TAGS
+    if settings.get('tags'):
+        if item.get('tag'):
+            tag_results = _validate_tags(settings['tags'], item['tag'])
+            results['failures'].extend(tag_results['failures'])
+            results['warnings'].extend(tag_results['warnings'])
+        else:
+            if settings['tags'].get('required'):
+                results['failures'].append('Expected required tags, but no tags found.')
+            else:
+                results['warnings'].append('Expected desired tags, but no tags found.')
+    return results
+
+
 def apply_profile(profile, data):
     """Apply the given profile to the given data."""
     results = {
@@ -176,40 +256,37 @@ def apply_profile(profile, data):
     }
 
     for item in data:
-        # handle ATTRIBUTES
-        if profile['settings'].get('attributes'):
-            if item.get('attribute'):
-                attribute_results = _validate_attributes(profile['settings']['attributes'], item['attribute'])
-                results['failures'].extend(attribute_results['failures'])
-                results['warnings'].extend(attribute_results['warnings'])
-            else:
-                if profile['settings']['attributes'].get('required'):
-                    results['failures'].append('Expected required attributes, but no attributes found.')
-                else:
-                    results['warnings'].append('Expected desired attributes, but no attributes found.')
+        # apply settings for ALL ITEMS
+        if profile['settings'].get('all'):
+            new_results = handle_settings(profile['settings']['all'], item)
+            results['failures'].extend(new_results['failures'])
+            results['warnings'].extend(new_results['warnings'])
 
-        # handle ASSOCIATIONS
-        if profile['settings'].get('associations'):
-            if item.get('associations'):
-                tag_results = _validate_associations(profile['settings']['associations'], item['associations'])
-                results['failures'].extend(tag_results['failures'])
-                results['warnings'].extend(tag_results['warnings'])
-            else:
-                if profile['settings']['associations'].get('required'):
-                    results['failures'].append('Expected required associations, but no associations found.')
-                else:
-                    results['warnings'].append('Expected desired associations, but no associations found.')
+        # get the item's type
+        try:
+            item_type = item['type'].lower()
+        except KeyError:
+            message = 'No "type" key-value pair on the item. Try using getting the data from the API or using TCEX.resources (https://docs.threatconnect.com/en/latest/tcex/resource.html). Here is the offending item:\n{}'
+            raise KeyError(message.format(item))
 
-        # handle TAGS
-        if profile['settings'].get('tags'):
-            if item.get('tag'):
-                tag_results = _validate_tags(profile['settings']['tags'], item['tag'])
-                results['failures'].extend(tag_results['failures'])
-                results['warnings'].extend(tag_results['warnings'])
-            else:
-                if profile['settings']['tags'].get('required'):
-                    results['failures'].append('Expected required tags, but no tags found.')
-                else:
-                    results['warnings'].append('Expected desired tags, but no tags found.')
+        # apply settings for the GENERAL TYPE
+        if is_indicator(item_type):
+            # apply settings for INDICATORS
+            if profile['settings'].get('indicator'):
+                new_results = handle_settings(profile['settings']['indicator'], item)
+                results['failures'].extend(new_results['failures'])
+                results['warnings'].extend(new_results['warnings'])
+        elif is_group(item_type):
+            # apply settings for GROUPS
+            if profile['settings'].get('group'):
+                new_results = handle_settings(profile['settings']['group'], item)
+                results['failures'].extend(new_results['failures'])
+                results['warnings'].extend(new_results['warnings'])
+
+        # apply settings for the SPECIFIC ITEM TYPE
+        if profile['settings'].get(item_type):
+            new_results = handle_settings(profile['settings'][item_type], item)
+            results['failures'].extend(new_results['failures'])
+            results['warnings'].extend(new_results['warnings'])
 
     return results

@@ -1,52 +1,54 @@
 {
     "settings":
     {
-        "attributes":
-        {
-            "required": [
+        "address": {
+            "attributes":
             {
-                "type": "Source",
-                "value": "https://threatconnect.com/blog",
-                "regex": false
-            },
-            {
-                "type": "Description",
-                "value": "",
-                "regex": false
-            },
-            {
-                "type": "Additional Analysis and Context",
-                "value": "https://hightower.space",
-                "regex": true
-            }],
-            "desired": [],
-            "actionOnDuplicates": "fail",
-            "minNumberOfAttributes": 3,
-            "maxNumberOfAttributes": 10
-        },
-        "associations":{
-            "required": [{
-                    "type": "Document",
-                    "count": 2
+                "required": [
+                {
+                    "type": "Source",
+                    "value": "https://threatconnect.com/blog",
+                    "regex": false
                 },
                 {
-                    "type": "File",
-                    "count": 0
+                    "type": "Description",
+                    "value": "",
+                    "regex": false
                 },
                 {
-                    "type": "Host"
-                }
-            ],
-            "desired":[{
-                    "type": "Adversary",
-                    "count": 1
-                }
-            ]
-        },
-        "tags":
-        {
-            "required": ["Ugly"],
-            "desired": []
+                    "type": "Additional Analysis and Context",
+                    "value": "https://hightower.space",
+                    "regex": true
+                }],
+                "desired": [],
+                "actionOnDuplicates": "fail",
+                "minNumberOfAttributes": 3,
+                "maxNumberOfAttributes": 10
+            },
+            "associations":{
+                "required": [{
+                        "type": "Document",
+                        "count": 2
+                    },
+                    {
+                        "type": "File",
+                        "count": 0
+                    },
+                    {
+                        "type": "Host"
+                    }
+                ],
+                "desired":[{
+                        "type": "Adversary",
+                        "count": 1
+                    }
+                ]
+            },
+            "tags":
+            {
+                "required": ["Ugly"],
+                "desired": []
+            }
         }
     }
 }

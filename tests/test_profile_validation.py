@@ -41,9 +41,5 @@ def test_invalid_profile_1(profile_1, data_1_b):
 
 
 def test_nonexistent_attibutes(profile_1):
-    results = tc_dc.apply_profile(profile_1, [{}])
-    assert len(results['failures']) == 3
-    assert len(results['warnings']) == 0
-    assert 'Expected required attributes, but no attributes found.' in results['failures']
-    assert 'Expected required associations, but no associations found.' in results['failures']
-    assert 'Expected required tags, but no tags found.' in results['failures']
+    with pytest.raises(KeyError):
+        tc_dc.apply_profile(profile_1, [{}])

@@ -2,14 +2,8 @@
 # -*- coding: utf-8 -*-
 """Use a profile to validate associations."""
 
-import json
-import os
-
-import pytest
-
 from tc_dc import tc_dc
 
-from .utility import _read_file
 
 SAMPLE_ASSOCIATIONS_PROFILE = {
     "required": [{
