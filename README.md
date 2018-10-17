@@ -32,13 +32,13 @@ Each profile has three possible levels:
 
 ![](./_images/fig0.png)
 
-- `indicator`/`group` - Settings on this level are applied to all indicator/group types
+- `group`/`indicator` - Settings on this level are applied to all group/indicator types
 
 ![](./_images/fig1a.png)
 
 ![](./_images/fig1b.png)
 
-- specific indicator/group types - Settings on this level are applied only to indicators/groups of a particular type
+- specific group/indicator types - Settings on this level are applied only to groups/indicators of a particular type
 
 ![](./_images/fig2.png)
 
@@ -47,10 +47,10 @@ A profile will look something like:
 ```json
 {
     "settings": {
-        "all": {...},
-        "indicator": {...},
-        "host": {...},
-        "address": {...}
+        "all": {...}, # these settings get applied to everything
+        "indicator": {...}, # these settings get applied to all indicators
+        "host": {...}, # these settings get applied to host indicators
+        "address": {...} # these settings get applied to IP address indicators
     },
     "name": "Sample Profile"
 }
