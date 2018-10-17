@@ -2,33 +2,20 @@
 # -*- coding: utf-8 -*-
 """Create a TC-DC profile based on some data."""
 
-GROUP_TYPES = ['Adversary', 'Campaign', 'Document', 'Email', 'Event', 'Incident', 'Intrusion Set', 'Report', 'Signature', 'Threat']
+from .tc_dc import is_group
 
 
 def create_profile(data):
     """Create a TC-DC profile based on the given data."""
-    proposed_profile = {
-        "settings":
-        {
-            "attributes": {
-                "required": [],
-                "desired": []
-            },
-            "associations": {
-                "required": [],
-                "desired": []
-            },
-            "tags": {
-                "required": [],
-                "desired": []
-            }
-        }
+    proposed_profile_base = {
+        "settings": {}
     }
 
     # capture the attributes, tags, and associations from the data
     attributes = {}
     tags = {}
     associations = {}
+
     for i in data:
         if i.get('attribute'):
             for attribute in i['attribute']:
@@ -40,7 +27,7 @@ def create_profile(data):
             # handle JSON from the API
             if isinstance(i['associations'], list):
                 for association in i['associations']:
-                    if association['type'] in GROUP_TYPES:
+                    if is_group(association['type'].lower()):
                         associations[association['type']] = associations.get(association['type'], 0) + 1
             # handle JSON from democritus
             else:
@@ -49,39 +36,57 @@ def create_profile(data):
 
     # do some analysis to determine what should be required vs. desired
     item_count = len(data)
+    new_settings = {
+        "attributes": {
+            "required": [],
+            "desired": []
+        },
+        "associations": {
+            "required": [],
+            "desired": []
+        },
+        "tags": {
+            "required": [],
+            "desired": []
+        }
+    }
+
     # ATTRIBUTES
     for key, value in attributes.items():
         # if the attribute is used one every data point, make it required
         if value >= item_count:
-            proposed_profile['settings']['attributes']['required'].append({
+            new_settings['attributes']['required'].append({
                 'type': key,
                 'value': ''
             })
         # if the attribute is used on more than half of the data points, make it desired
         elif value >= (item_count / 2):
-            proposed_profile['settings']['attributes']['desired'].append({
+            new_settings['attributes']['desired'].append({
                 'type': key,
                 'value': ''
             })
+
     # TAGS
     for key, value in tags.items():
         # if the tag is used one every data point, make it required
         if value >= item_count:
-            proposed_profile['settings']['tags']['required'].append(key)
+            new_settings['tags']['required'].append(key)
         # if the tag is used on more than half of the data points, make it desired
         elif value >= (item_count / 2):
-            proposed_profile['settings']['tags']['desired'].append(key)
+            new_settings['tags']['desired'].append(key)
+
     # ASSOCIATIONS
     for key, value in associations.items():
         # if the association is used one every data point, make it required
         if value >= item_count:
-            proposed_profile['settings']['associations']['required'].append({
+            new_settings['associations']['required'].append({
                 "type": key
             })
         # if the association is used on more than half of the data points, make it desired
         elif value >= (item_count / 2):
-            proposed_profile['settings']['associations']['desired'].append({
+            new_settings['associations']['desired'].append({
                 "type": key
             })
 
-    return proposed_profile
+    proposed_profile_base['settings']['all'] = new_settings
+    return proposed_profile_base

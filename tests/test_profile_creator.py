@@ -109,7 +109,7 @@ DATA = [{'address': 'guangluma@hotmail.com',
 
 def test_profile_creator_1():
     profile = profile_creator.create_profile(DATA)
-    assert profile == {'settings': {'attributes': {'required': [{'type': 'Source', 'value': ''}, {'type': 'Description', 'value': ''}], 'desired': []}, 'associations': {'required': [{'type': 'Incident'}], 'desired': []}, 'tags': {'required': ['Mail', 'BLOG: Tamagothi Daily Spam', '419', 'gmail.com', 'Geschäftsvorschlag'], 'desired': []}}}
+    assert profile == {'settings': {'all': {'attributes': {'required': [{'type': 'Source', 'value': ''}, {'type': 'Description', 'value': ''}], 'desired': []}, 'associations': {'required': [{'type': 'Incident'}], 'desired': []}, 'tags': {'required': ['Mail', 'BLOG: Tamagothi Daily Spam', '419', 'gmail.com', 'Geschäftsvorschlag'], 'desired': []}}}}
 
 
 def test_profile_creator_differentiate_required_and_desired():
@@ -206,7 +206,7 @@ def test_profile_creator_differentiate_required_and_desired():
     'webLink': 'https://app.threatconnect.com/auth/tags/tag.xhtml?tag=Gesch%C3%A4ftsvorschlag&owner=Technical+Blogs+and+Reports'}],
   'webLink': 'https://app.threatconnect.com/auth/indicators/details/emailaddress.xhtml?emailaddress=guanglum70%40gmail.com&owner=Technical+Blogs+and+Reports'}]
     profile = profile_creator.create_profile(data)
-    assert profile == {'settings': {'attributes': {'required': [{'type': 'Description', 'value': ''}], 'desired': [{'type': 'Source', 'value': ''}]}, 'associations': {'required': [{'type': 'Incident'}], 'desired': []}, 'tags': {'required': ['Mail', 'BLOG: Tamagothi Daily Spam', '419', 'Geschäftsvorschlag'], 'desired': ['gmail.com']}}}
+    assert profile == {'settings': {'all': {'attributes': {'required': [{'type': 'Description', 'value': ''}], 'desired': [{'type': 'Source', 'value': ''}]}, 'associations': {'required': [{'type': 'Incident'}], 'desired': []}, 'tags': {'required': ['Mail', 'BLOG: Tamagothi Daily Spam', '419', 'Geschäftsvorschlag'], 'desired': ['gmail.com']}}}}
 
 
 # TODO: get the functions below working - the current problem is that the associations in data in data_1_a and data_1_b are not in the same format as the form returned by democritus (which can be seen in the tests above)
@@ -214,11 +214,11 @@ def test_profile_creator_a():
     data = data_1_a()
     profile = profile_creator.create_profile(data)
     assert len(profile) == 1
-    assert profile == {'settings': {'attributes': {'required': [{'type': 'Description', 'value': ''}, {'type': 'Source', 'value': ''}, {'type': 'Additional Analysis and Context', 'value': ''}], 'desired': []}, 'associations': {'required': [{'type': 'Document'}, {'type': 'Adversary'}], 'desired': []}, 'tags': {'required': ['Ugly'], 'desired': []}}}
+    assert profile == {'settings': {'all': {'attributes': {'required': [{'type': 'Description', 'value': ''}, {'type': 'Source', 'value': ''}, {'type': 'Additional Analysis and Context', 'value': ''}], 'desired': []}, 'associations': {'required': [{'type': 'Document'}, {'type': 'Adversary'}], 'desired': []}, 'tags': {'required': ['Ugly'], 'desired': []}}}}
 
 
 def test_profile_creator_b():
     data = data_1_b()
     profile = profile_creator.create_profile(data)
     assert len(profile) == 1
-    assert profile == {'settings': {'attributes': {'required': [{'type': 'Description', 'value': ''}, {'type': 'Source', 'value': ''}, {'type': 'Additional Analysis and Context', 'value': ''}], 'desired': []}, 'associations': {'required': [{'type': 'Document'}], 'desired': [{'type': 'Adversary'}]}, 'tags': {'required': [], 'desired': ['Ugly']}}}
+    assert profile == {'settings': {'all': {'attributes': {'required': [{'type': 'Description', 'value': ''}, {'type': 'Source', 'value': ''}, {'type': 'Additional Analysis and Context', 'value': ''}], 'desired': []}, 'associations': {'required': [{'type': 'Document'}], 'desired': [{'type': 'Adversary'}]}, 'tags': {'required': [], 'desired': ['Ugly']}}}}
