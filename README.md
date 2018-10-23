@@ -47,10 +47,10 @@ A profile will look something like:
 ```json
 {
     "settings": {
-        "all": {...}, # these settings get applied to everything
-        "indicator": {...}, # these settings get applied to all indicators
-        "host": {...}, # these settings get applied to host indicators
-        "address": {...} # these settings get applied to IP address indicators
+        "all": {...}, # these settings get applied to EVERYTHING
+        "indicator": {...}, # these settings get applied to ALL INDICATORS
+        "host": {...}, # these settings get applied to HOST INDICATORS
+        "address": {...} # these settings get applied to IP ADDRESS INDICATORS
     },
     "name": "Sample Profile"
 }
